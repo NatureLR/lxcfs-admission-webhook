@@ -1,8 +1,6 @@
 package v1
 
 import (
-	"encoding/json"
-	"os"
 	"path/filepath"
 
 	corev1 "k8s.io/api/core/v1"
@@ -51,5 +49,4 @@ func LxcPatch(pod *corev1.Pod) {
 		cs = append(cs, container)
 	}
 	pod.Spec.Containers = cs
-	json.NewEncoder(os.Stdout).Encode(pod)
 }
