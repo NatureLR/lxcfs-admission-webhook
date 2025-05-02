@@ -43,7 +43,7 @@ func LxcPatch(pod *corev1.Pod) {
 	}
 
 	pod.Spec.Volumes = append(pod.Spec.Volumes, volumes...)
-	var cs []corev1.Container
+	cs := make([]corev1.Container, 0, len(pod.Spec.Containers))
 	for _, container := range pod.Spec.Containers {
 		container.VolumeMounts = append(container.VolumeMounts, volumeMounts...)
 		cs = append(cs, container)
