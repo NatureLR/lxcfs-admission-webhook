@@ -254,7 +254,7 @@ var _ = Describe("Manager", Ordered, func() {
 			metricsOutput := getMetricsOutput()
 			// only have webhook
 			Expect(metricsOutput).To(ContainSubstring(
-				//"controller_runtime_reconcile_total",
+				// "controller_runtime_reconcile_total",
 				"controller_runtime_webhook_requests_in_flight",
 			))
 		})
