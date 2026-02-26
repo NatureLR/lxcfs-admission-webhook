@@ -25,8 +25,8 @@ func LxcPatch(pod *corev1.Pod) {
 		"/var/lib/lxcfs/proc/loadavg":   "/proc/loadavg",
 	}
 
-	volumes := []corev1.Volume{}
-	volumeMounts := []corev1.VolumeMount{}
+	volumes := make([]corev1.Volume, 0, len(mountMap))
+	volumeMounts := make([]corev1.VolumeMount, 0, len(mountMap))
 	for hostPath, containerPath := range mountMap {
 		name := "lfxfs-" + filepath.Base(hostPath)
 
