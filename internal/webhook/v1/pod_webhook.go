@@ -1,5 +1,5 @@
 /*
-Copyright 2026.
+Copyright 2025.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package v1
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -62,7 +63,13 @@ func (d *PodCustomDefaulter) Default(ctx context.Context, obj runtime.Object) er
 	}
 	podlog.Info("Defaulting for Pod", "name", pod.GetName())
 
-	// TODO(user): fill in your defaulting logic.
+	anno := pod.GetAnnotations()
+	if x, ok := anno[""]; ok {
+		if strings.ToLower(x) == "false" {
+			return nil
+		}
+	}
 
+	LxcPatch(pod)
 	return nil
 }

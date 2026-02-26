@@ -1,5 +1,5 @@
 /*
-Copyright 2026.
+Copyright 2025.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -60,10 +60,11 @@ var _ = Describe("Manager", Ordered, func() {
 		_, err = utils.Run(cmd)
 		Expect(err).NotTo(HaveOccurred(), "Failed to label namespace with restricted policy")
 
-		By("installing CRDs")
-		cmd = exec.Command("make", "install")
-		_, err = utils.Run(cmd)
-		Expect(err).NotTo(HaveOccurred(), "Failed to install CRDs")
+		// no crds
+		// By("installing CRDs")
+		// cmd = exec.Command("make", "install")
+		// _, err = utils.Run(cmd)
+		// Expect(err).NotTo(HaveOccurred(), "Failed to install CRDs")
 
 		By("deploying the controller-manager")
 		cmd = exec.Command("make", "deploy", fmt.Sprintf("IMG=%s", projectImage))
@@ -251,8 +252,10 @@ var _ = Describe("Manager", Ordered, func() {
 
 			By("getting the metrics by checking curl-metrics logs")
 			metricsOutput := getMetricsOutput()
+			// only have webhook
 			Expect(metricsOutput).To(ContainSubstring(
-				"controller_runtime_reconcile_total",
+				// "controller_runtime_reconcile_total",
+				"controller_runtime_webhook_requests_in_flight",
 			))
 		})
 
