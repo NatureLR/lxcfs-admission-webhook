@@ -1,0 +1,30 @@
+{{- if .Values.webhook.enable }}
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+    name: {{ include "lxcfs-admission-webhook.resourceName" (dict "suffix" "mutating-webhook-configuration" "context" $) }}
+webhooks:
+    - admissionReviewVersions:
+        - v1
+      clientConfig:
+        service:
+            name: {{ include "lxcfs-admission-webhook.resourceName" (dict "suffix" "webhook-service" "context" $) }}
+            namespace: {{ .Release.Namespace }}
+            path: /mutate--v1-pod
+      failurePolicy: Fail
+      name: mpod-v1.kb.io
+      namespaceSelector:
+        matchLabels:
+            lxcfs-injection: enabled
+      rules:
+        - apiGroups:
+            - ""
+          apiVersions:
+            - v1
+          operations:
+            - CREATE
+            - UPDATE
+          resources:
+            - pods
+      sideEffects: None
+{{- end }}

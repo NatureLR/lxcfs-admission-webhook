@@ -1,8 +1,16 @@
 # lxcfs-admission-webhook
-// TODO(user): Add simple overview of use/purpose
+
+a lxcfs webhook for k8s
 
 ## Description
-// TODO(user): An in-depth paragraph about your project and overview of use
+
+- [lxcfs](https://github.com/lxc/lxcfs)
+
+## Install
+
+```sh
+kubectl apply -f https://raw.githubusercontent.com/naturelr/lxcfs-admission-webhook/master/dist/install.yaml
+```
 
 ## Getting Started
 
@@ -13,10 +21,11 @@
 - Access to a Kubernetes v1.11.3+ cluster.
 
 ### To Deploy on the cluster
+
 **Build and push your image to the location specified by `IMG`:**
 
 ```sh
-make docker-build docker-push IMG=<some-registry>/lxcfs-admission-webhook:tag
+make docker-build docker-push IMG=naturelr/lxcfs-admission-webhook:tag
 ```
 
 **NOTE:** This image ought to be published in the personal registry you specified.
@@ -32,7 +41,7 @@ make install
 **Deploy the Manager to the cluster with the image specified by `IMG`:**
 
 ```sh
-make deploy IMG=<some-registry>/lxcfs-admission-webhook:tag
+make deploy IMG=naturelr/lxcfs-admission-webhook:latest
 ```
 
 > **NOTE**: If you encounter RBAC errors, you may need to grant yourself cluster-admin
@@ -48,6 +57,7 @@ kubectl apply -k config/samples/
 >**NOTE**: Ensure that the samples has default values to test it out.
 
 ### To Uninstall
+
 **Delete the instances (CRs) from the cluster:**
 
 ```sh
