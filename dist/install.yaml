@@ -271,8 +271,8 @@ metadata:
   namespace: lxcfs-admission-webhook-system
 spec:
   dnsNames:
-  - SERVICE_NAME.SERVICE_NAMESPACE.svc
-  - SERVICE_NAME.SERVICE_NAMESPACE.svc.cluster.local
+  - lxcfs-admission-webhook-controller-manager-metrics-service.lxcfs-admission-webhook-system.svc
+  - lxcfs-admission-webhook-controller-manager-metrics-service.lxcfs-admission-webhook-system.svc.cluster.local
   issuerRef:
     kind: Issuer
     name: lxcfs-admission-webhook-selfsigned-issuer
@@ -288,8 +288,8 @@ metadata:
   namespace: lxcfs-admission-webhook-system
 spec:
   dnsNames:
-  - SERVICE_NAME.SERVICE_NAMESPACE.svc
-  - SERVICE_NAME.SERVICE_NAMESPACE.svc.cluster.local
+  - lxcfs-admission-webhook-webhook-service.lxcfs-admission-webhook-system.svc
+  - lxcfs-admission-webhook-webhook-service.lxcfs-admission-webhook-system.svc.cluster.local
   issuerRef:
     kind: Issuer
     name: lxcfs-admission-webhook-selfsigned-issuer
@@ -309,6 +309,8 @@ spec:
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: lxcfs-admission-webhook-system/lxcfs-admission-webhook-serving-cert
   name: lxcfs-admission-webhook-mutating-webhook-configuration
 webhooks:
 - admissionReviewVersions:

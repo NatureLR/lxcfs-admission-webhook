@@ -11,8 +11,8 @@ metadata:
     namespace: {{ .Release.Namespace }}
 spec:
     dnsNames:
-        - SERVICE_NAME.SERVICE_NAMESPACE.svc
-        - SERVICE_NAME.SERVICE_NAMESPACE.svc.cluster.local
+        - {{ include "lxcfs-admission-webhook.resourceName" (dict "suffix" "webhook-service" "context" $) }}.{{ .Release.Namespace }}.svc
+        - {{ include "lxcfs-admission-webhook.resourceName" (dict "suffix" "webhook-service" "context" $) }}.{{ .Release.Namespace }}.svc.cluster.local
     issuerRef:
         kind: Issuer
         name: {{ include "lxcfs-admission-webhook.resourceName" (dict "suffix" "selfsigned-issuer" "context" $) }}

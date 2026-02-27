@@ -11,8 +11,8 @@ metadata:
     namespace: {{ .Release.Namespace }}
 spec:
     dnsNames:
-        - {{ include "lxcfs-admission-webhook.resourceName" (dict "suffix" "controller-manager-metrics-service" "context" $) }}.{{ include "lxcfs-admission-webhook.namespaceName" $ }}.svc
-        - {{ include "lxcfs-admission-webhook.resourceName" (dict "suffix" "controller-manager-metrics-service" "context" $) }}.{{ include "lxcfs-admission-webhook.namespaceName" $ }}.svc.cluster.local
+        - {{ include "lxcfs-admission-webhook.resourceName" (dict "suffix" "controller-manager-metrics-service" "context" $) }}.{{ .Release.Namespace }}.svc
+        - {{ include "lxcfs-admission-webhook.resourceName" (dict "suffix" "controller-manager-metrics-service" "context" $) }}.{{ .Release.Namespace }}.svc.cluster.local
     issuerRef:
         kind: Issuer
         name: {{ include "lxcfs-admission-webhook.resourceName" (dict "suffix" "selfsigned-issuer" "context" $) }}
