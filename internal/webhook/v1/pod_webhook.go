@@ -18,14 +18,11 @@ package v1
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
-	"sigs.k8s.io/controller-runtime/pkg/webhook"
 )
 
 // nolint:unused
@@ -34,7 +31,7 @@ var podlog = logf.Log.WithName("pod-resource")
 
 // SetupPodWebhookWithManager registers the webhook for Pod in the manager.
 func SetupPodWebhookWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewWebhookManagedBy(mgr).For(&corev1.Pod{}).
+	return ctrl.NewWebhookManagedBy(mgr, &corev1.Pod{}).
 		WithDefaulter(&PodCustomDefaulter{}).
 		Complete()
 }
@@ -52,24 +49,17 @@ type PodCustomDefaulter struct {
 	// TODO(user): Add more fields as needed for defaulting
 }
 
-var _ webhook.CustomDefaulter = &PodCustomDefaulter{}
-
 // Default implements webhook.CustomDefaulter so a webhook will be registered for the Kind Pod.
-func (d *PodCustomDefaulter) Default(ctx context.Context, obj runtime.Object) error {
-	pod, ok := obj.(*corev1.Pod)
+func (d *PodCustomDefaulter) Default(_ context.Context, obj *corev1.Pod) error {
+	podlog.Info("Defaulting for Pod", "name", obj.GetName())
 
-	if !ok {
-		return fmt.Errorf("expected an Pod object but got %T", obj)
-	}
-	podlog.Info("Defaulting for Pod", "name", pod.GetName())
-
-	anno := pod.GetAnnotations()
+	anno := obj.GetAnnotations()
 	if x, ok := anno[""]; ok {
 		if strings.ToLower(x) == "false" {
 			return nil
 		}
 	}
 
-	LxcPatch(pod)
+	LxcPatch(obj)
 	return nil
 }

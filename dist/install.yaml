@@ -245,6 +245,7 @@ spec:
           capabilities:
             drop:
             - ALL
+          readOnlyRootFilesystem: true
         volumeMounts:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: webhook-certs
@@ -270,8 +271,8 @@ metadata:
   namespace: lxcfs-admission-webhook-system
 spec:
   dnsNames:
-  - SERVICE_NAME.SERVICE_NAMESPACE.svc
-  - SERVICE_NAME.SERVICE_NAMESPACE.svc.cluster.local
+  - lxcfs-admission-webhook-controller-manager-metrics-service.lxcfs-admission-webhook-system.svc
+  - lxcfs-admission-webhook-controller-manager-metrics-service.lxcfs-admission-webhook-system.svc.cluster.local
   issuerRef:
     kind: Issuer
     name: lxcfs-admission-webhook-selfsigned-issuer
